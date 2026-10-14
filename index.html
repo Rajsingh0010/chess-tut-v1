@@ -35,8 +35,8 @@
 
           <div class="board-stage">
             <div class="board-glow"></div>
-            <div id="scene" aria-label="Interactive 3D chess board"></div>
-            <div class="board-caption"><span>DRAG TO ROTATE</span><span>SCROLL TO ZOOM</span></div>
+            <div id="scene" role="application" aria-label="Interactive 3D chess board" tabindex="0"></div>
+            <div class="board-caption"><span>CLICK A PIECE, THEN A HIGHLIGHTED SQUARE</span><span>DRAG TO ROTATE · SCROLL TO ZOOM</span></div>
           </div>
 
           <div class="game-footer">
@@ -45,7 +45,7 @@
               <div><strong>YOU</strong><span>Guest player</span></div>
               <div class="player-time">09:42</div>
             </div>
-            <div class="turn-indicator"><span class="turn-dot"></span><span id="turn-label">Your turn</span></div>
+            <div class="turn-indicator" aria-live="polite"><span class="turn-dot"></span><span id="turn-label">Your turn</span></div>
             <div class="player-card opponent-card">
               <div class="player-avatar black-avatar">♟</div>
               <div><strong>OPPONENT</strong><span>Stockfish 19</span></div>
@@ -79,7 +79,7 @@
             <div class="chat-messages"><div class="chat-message"><span class="chat-avatar">AR</span><p><strong>Amelia R.</strong><br><span>Nice opening.</span></p></div><div class="chat-message"><span class="chat-avatar you">YO</span><p><strong>You</strong><br><span>Good luck!</span></p></div></div>
             <div class="chat-input"><input placeholder="Send a message..." aria-label="Send a message" /><button aria-label="Send message">↗</button></div>
           </div>
-          <div class="coach-card"><div class="coach-icon">✦</div><div><span>STUDIO COACH</span><p id="coach-message">Control the center. Look for a developing move.</p></div><button aria-label="Dismiss coach">×</button></div>
+          <div class="coach-card"><div class="coach-icon">✦</div><div><span>STUDIO COACH</span><p id="coach-message" aria-live="polite">Control the center. Look for a developing move.</p></div><button aria-label="Dismiss coach">×</button></div>
         </aside>
       </main>
 

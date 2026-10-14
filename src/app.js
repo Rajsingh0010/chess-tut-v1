@@ -332,6 +332,9 @@ document.querySelector('#undo-button').addEventListener('click', () => {
 document.querySelector('#flip-button').addEventListener('click', () => { boardRoot.rotation.y += Math.PI; });
 document.querySelector('#sound-toggle').addEventListener('click', (event) => { event.currentTarget.textContent = event.currentTarget.textContent === '⌕' ? '×' : '⌕'; });
 document.querySelector('#theme-toggle').addEventListener('click', () => document.body.classList.toggle('bright-mode'));
+document.querySelector('.coach-card button').addEventListener('click', (event) => {
+  event.currentTarget.closest('.coach-card').classList.add('dismissed');
+});
 document.querySelectorAll('.tab').forEach((tab) => tab.addEventListener('click', () => {
   document.querySelectorAll('.tab').forEach((item) => item.classList.remove('active'));
   tab.classList.add('active');
