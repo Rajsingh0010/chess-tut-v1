@@ -41,6 +41,7 @@ let lastPointer = { x: 0, y: 0 };
 let engineThinking = false;
 let engineMode = 'move';
 let engineElo = 1400;
+let gameEnded = false;
 
 const engine = new Worker('/stockfish-19-lite-single.js');
 engine.postMessage('uci');
@@ -180,7 +181,7 @@ function squareFromHit(hit) {
 }
 
 function handleBoardClick(event) {
-  if (engineThinking || chess.turn() !== 'w' || chess.isGameOver()) return;
+  if (gameEnded || engineThinking || chess.turn() !== 'w' || chess.isGameOver()) return;
   const rect = renderer.domElement.getBoundingClientRect();
   pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
   pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
@@ -228,6 +229,24 @@ function renderMovePanel() {
     moveList.appendChild(row);
   }
   document.querySelector('#move-number').textContent = `${Math.ceil(history.length / 2)} / 40`;
+  updateCapturedPieces();
+}
+
+function updateCapturedPieces() {
+  const startingPieces = { p: 16, n: 4, b: 4, r: 4, q: 2, k: 2 };
+  const remainingPieces = { p: 0, n: 0, b: 0, r: 0, q: 0, k: 0 };
+  chess.board().flat().forEach((piece) => {
+    if (piece) remainingPieces[piece.type] += 1;
+  });
+  const symbols = { p: '♟', n: '♞', b: '♝', r: '♜', q: '♛' };
+  const captured = [];
+  Object.keys(symbols).forEach((type) => {
+    const count = startingPieces[type] - remainingPieces[type];
+    for (let index = 0; index < count; index += 1) captured.push(symbols[type]);
+  });
+  document.querySelector('#captured-pieces').innerHTML = captured.length
+    ? captured.map((piece) => `<span>${piece}</span>`).join('')
+    : '<span class="empty-capture">—</span>';
 }
 
 function updateMovePanel(move) {
@@ -290,7 +309,7 @@ document.querySelector('#elo-select').addEventListener('change', (event) => {
 });
 
 document.querySelector('#hint-button').addEventListener('click', () => {
-  if (engineThinking || chess.turn() !== 'w' || chess.isGameOver()) return;
+  if (gameEnded || engineThinking || chess.turn() !== 'w' || chess.isGameOver()) return;
   engineThinking = true;
   engineMode = 'hint';
   document.querySelector('#coach-message').textContent = 'Stockfish is finding a suggestion.';
@@ -305,6 +324,7 @@ document.querySelector('#new-game-button').addEventListener('click', () => {
   selectedSquare = null;
   engineThinking = false;
   engineMode = 'move';
+  gameEnded = false;
   clearHighlights();
   renderPosition();
   renderMovePanel();
@@ -312,8 +332,19 @@ document.querySelector('#new-game-button').addEventListener('click', () => {
   document.querySelector('#coach-message').textContent = 'New game started. Control the center.';
 });
 
+document.querySelector('#resign-button').addEventListener('click', () => {
+  if (gameEnded || chess.isGameOver()) return;
+  engine.postMessage('stop');
+  gameEnded = true;
+  engineThinking = false;
+  selectedSquare = null;
+  clearHighlights();
+  document.querySelector('#turn-label').textContent = 'You resigned';
+  document.querySelector('#coach-message').textContent = 'Game over. Start a new game when you are ready.';
+});
+
 document.querySelector('#undo-button').addEventListener('click', () => {
-  if (!moveHistory.length) return;
+  if (!moveHistory.length || gameEnded) return;
   engine.postMessage('stop');
   engineThinking = false;
   chess.undo();
