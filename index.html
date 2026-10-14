@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#101318" />
+    <title>CHESS / Studio</title>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Chess Studio home">
+          <span class="brand-mark">♞</span>
+          <span class="brand-copy"><strong>CHESS</strong><small>/ STUDIO</small></span>
+        </a>
+        <div class="topbar-actions">
+          <button class="icon-button" id="sound-toggle" aria-label="Toggle sound" title="Toggle sound">⌕</button>
+          <button class="icon-button" id="theme-toggle" aria-label="Toggle ambience" title="Toggle ambience">◐</button>
+          <div class="profile"><span class="profile-dot"></span><span>Guest player</span><span class="chevron">⌄</span></div>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <section class="game-column">
+          <div class="game-heading">
+            <div>
+              <p class="eyebrow">RANKED MATCH <span class="live-dot"></span> LIVE</p>
+              <h1>Classic match</h1>
+            </div>
+            <div class="game-heading-meta">
+              <span class="match-id">#8492-A</span>
+              <button class="more-button" aria-label="More options">•••</button>
+            </div>
+          </div>
+
+          <div class="board-stage">
+            <div class="board-glow"></div>
+            <div id="scene" aria-label="Interactive 3D chess board"></div>
+            <div class="board-caption"><span>DRAG TO ROTATE</span><span>SCROLL TO ZOOM</span></div>
+          </div>
+
+          <div class="game-footer">
+            <div class="player-card active-player">
+              <div class="player-avatar white-avatar">♙</div>
+              <div><strong>YOU</strong><span>Guest player</span></div>
+              <div class="player-time">09:42</div>
+            </div>
+            <div class="turn-indicator"><span class="turn-dot"></span><span id="turn-label">Your turn</span></div>
+            <div class="player-card opponent-card">
+              <div class="player-avatar black-avatar">♟</div>
+              <div><strong>OPPONENT</strong><span>Stockfish 19</span></div>
+              <div class="player-time muted-time">09:58</div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="side-panel">
+          <div class="panel-tabs"><button class="tab active" data-tab="moves">MOVES</button><button class="tab" data-tab="chat">CHAT <span class="chat-count">2</span></button></div>
+          <div id="moves-panel" class="panel-content">
+            <div class="panel-summary"><div><span class="label">MOVE</span><strong id="move-number">12 / 40</strong></div><div class="eval"><span class="label">EVALUATION</span><strong id="evaluation">+0.3</strong></div></div>
+            <div class="engine-settings">
+              <label for="elo-select"><span class="label">STOCKFISH LEVEL</span><select id="elo-select"><option value="800">800 · Beginner</option><option value="1100">1100 · Casual</option><option value="1400" selected>1400 · Club</option><option value="1800">1800 · Strong</option><option value="2200">2200 · Expert</option><option value="2400">2400 · Master</option></select></label>
+              <span class="engine-badge">ELO <strong id="elo-value">1400</strong></span>
+            </div>
+            <div class="move-list" id="move-list">
+              <div class="move-row"><span class="move-index">06</span><span>O-O</span><span>Qxd5</span></div>
+              <div class="move-row"><span class="move-index">07</span><span>c4</span><span>Qd6</span></div>
+              <div class="move-row"><span class="move-index">08</span><span>Nc3</span><span>Nf6</span></div>
+              <div class="move-row"><span class="move-index">09</span><span>Bg5</span><span>e6</span></div>
+              <div class="move-row"><span class="move-index">10</span><span>e4</span><span>Nbd7</span></div>
+              <div class="move-row"><span class="move-index">11</span><span>e5</span><span>h6</span></div>
+              <div class="move-row current"><span class="move-index">12</span><span>Bh4</span><span>—</span></div>
+            </div>
+            <div class="panel-section-title"><span>CAPTURED</span><span class="capture-value">+0.3</span></div>
+            <div class="captured-pieces" id="captured-pieces"><span>♟</span><span>♙</span><span>♞</span></div>
+            <div class="panel-actions"><button class="outline-button" id="undo-button">↶ UNDO</button><button class="outline-button" id="hint-button">✦ HINT</button><button class="outline-button" id="new-game-button">＋ NEW GAME</button><button class="outline-button" id="flip-button">⇄ FLIP BOARD</button></div>
+          </div>
+          <div id="chat-panel" class="panel-content hidden">
+            <div class="chat-messages"><div class="chat-message"><span class="chat-avatar">AR</span><p><strong>Amelia R.</strong><br><span>Nice opening.</span></p></div><div class="chat-message"><span class="chat-avatar you">YO</span><p><strong>You</strong><br><span>Good luck!</span></p></div></div>
+            <div class="chat-input"><input placeholder="Send a message..." aria-label="Send a message" /><button aria-label="Send message">↗</button></div>
+          </div>
+          <div class="coach-card"><div class="coach-icon">✦</div><div><span>STUDIO COACH</span><p id="coach-message">Control the center. Look for a developing move.</p></div><button aria-label="Dismiss coach">×</button></div>
+        </aside>
+      </main>
+
+      <footer class="bottom-bar"><div class="status"><span class="status-dot"></span> ALL SYSTEMS NOMINAL</div><div class="bottom-links"><span>BOARD THEME <b>OBSIDIAN</b></span><span>PRESS <kbd>?</kbd> FOR SHORTCUTS</span></div></footer>
+    </div>
+    <script type="module" src="/src/app.js"></script>
+  </body>
+</html>
